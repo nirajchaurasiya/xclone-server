@@ -18,7 +18,7 @@ Router.put("/:userId/:userName", async (req, res) => {
     }
 
     const isUserNameExist = await UserModel.findOne({
-      username: userName?.split()?.toLowerCase(),
+      username: userName?.trim()?.toLowerCase(),
     });
     if (isUserNameExist) {
       return res.status(200).send({
@@ -29,7 +29,7 @@ Router.put("/:userId/:userName", async (req, res) => {
 
     await UserModel.findByIdAndUpdate(
       { _id: userId },
-      { username: userName.split().toLowerCase() }
+      { username: userName?.trim()?.toLowerCase() }
     );
     const findTheUser = await UserModel.findById(userId);
     return res.status(200).send({
@@ -38,6 +38,7 @@ Router.put("/:userId/:userName", async (req, res) => {
       user: findTheUser,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).send({
       status: 4,
       msg: "Internal server error",
