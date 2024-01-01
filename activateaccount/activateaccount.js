@@ -1,5 +1,6 @@
 const Router = require("express").Router();
 const UserModel = require("../Models/UserModel/UserModel");
+const path = require("path");
 Router.get("/:uemail/:token", async (req, res) => {
   try {
     const { uemail, token } = req.params;
@@ -19,27 +20,30 @@ Router.get("/:uemail/:token", async (req, res) => {
           }
         );
 
-        res.status(200).send({
-          status: 1,
-          msg: "Account activation success",
-        });
+        const successFile = path.resolve(__dirname, "activationsuccess.html");
+
+        // Send the HTML file
+        res.status(400).sendFile(successFile);
       } else {
-        res.status(400).send({
-          status: 0,
-          msg: "Token not matched.",
-        });
+        const tokennotmatched = path.resolve(__dirname, "tokennotmatched.html");
+
+        // Send the HTML file
+        res.status(400).sendFile(tokennotmatched);
       }
     } else {
-      res.status(400).send({
-        status: 0,
-        msg: "Couldn't find the user.",
-      });
+      const couldntbefoundtheuser = path.resolve(
+        __dirname,
+        "couldntbefoundtheuser.html"
+      );
+
+      // Send the HTML file
+      res.status(400).sendFile(couldntbefoundtheuser);
     }
   } catch (error) {
-    res.status(500).send({
-      status: 0,
-      msg: "Server error occured",
-    });
+    const servererror = path.resolve(__dirname, "servererror.html");
+
+    // Send the HTML file
+    res.status(400).sendFile(servererror);
   }
 });
 
