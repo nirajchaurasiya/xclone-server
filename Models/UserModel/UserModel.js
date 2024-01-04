@@ -9,6 +9,7 @@ const UserModel = mongoose.Schema(
     email: {
       type: String,
       required: true,
+      unique: true,
     },
     phone: {
       type: String,
@@ -17,6 +18,7 @@ const UserModel = mongoose.Schema(
     username: {
       type: String,
       required: true,
+      unique: true,
     },
     password: {
       type: String,
@@ -82,6 +84,10 @@ const UserModel = mongoose.Schema(
           type: String,
           required: true,
         },
+        time: {
+          type: Date,
+          default: Date.now,
+        },
       },
     ],
     followers: [
@@ -89,6 +95,10 @@ const UserModel = mongoose.Schema(
         user_id: {
           type: String,
           required: true,
+        },
+        time: {
+          type: Date,
+          default: Date.now,
         },
       },
     ],
